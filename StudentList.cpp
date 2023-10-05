@@ -9,15 +9,12 @@ struct Student{
   int id;
   float gpa;
 };
+void addToList(vector<Student*> &students);
 
 int main(){
-  Student* kevin = new Student;
-  kevin.id = 3;
-  vector<Student*> info;
-  info.push_back(kevin);
-  cout << info.at(0).id<<endl;
   bool stillRunning = true;
   while (stillRunning == true){
+    vector<Student*> students;
     char add [4];
     add[0] = 'A';
     add[1] = 'D';
@@ -56,6 +53,8 @@ int main(){
 
     if(strcmp(input, add) == 0){
       cout << "Steph curry is on drugs";
+      students.push_back(new Student);
+      addToList(students);
     }
     else if(strcmp(input, print) == 0){
       cout << "Kevin Yu's GPA is unfortunately low";
@@ -64,11 +63,17 @@ int main(){
       cout << "Remove";
     }
     else if(strcmp(input, quit) == 0){
-      cout << "Quit";
       stillRunning = false;
     }
   }
  
 
+}
+
+void addToList(vector<Student*> &students){
+  int newAddition = students.size() - 1;
+  
+
+  cout << "Hi";
 
 }
