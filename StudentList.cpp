@@ -4,16 +4,18 @@
 using namespace std;
 
 struct Student{
-  char firstName[10];
-  char lastName[10];
+  char firstName[15];
+  char lastName[15];
   int id;
   float gpa;
 };
-void addToList(vector<Student*> &students);
-
+void addToList(vector<Student*> &students, Student* &newStudent);
+void remove(vector<Student*> &students, int id);
+void printOut(vector<Student*> students);
 int main(){
   bool stillRunning = true;
   while (stillRunning == true){
+    cout << "hi";
     vector<Student*> students;
     char add [4];
     add[0] = 'A';
@@ -48,16 +50,18 @@ int main(){
     }
   
     //Student steph
-    cin.get(input, 20);
-    cin.get();
+    cin.get(input, 15);
+    cin.ignore(15, '\n');
 
+    Student* newStudent = new Student();
     if(strcmp(input, add) == 0){
       cout << "Steph curry is on drugs";
-      students.push_back(new Student);
-      addToList(students);
+      addToList(students, newStudent);
     }
     else if(strcmp(input, print) == 0){
-      cout << "Kevin Yu's GPA is unfortunately low";
+
+      cout << "Levi Lao's GPA is unfortunately low";
+      printOut(students);
     }
     else if(strcmp(input, remove) == 0){
       cout << "Remove";
@@ -70,10 +74,54 @@ int main(){
 
 }
 
-void addToList(vector<Student*> &students){
-  int newAddition = students.size() - 1;
+void remove(vector <Student*> &students, int id){
+  //vector <int> ::iterator iter = students.begin();
+
   
 
-  cout << "Hi";
+
+
+}
+void printOut(vector<Student*> students){
+  cout << "PRINT has been called";
+  vector<Student*>::iterator ptr;
+  for(ptr = students.begin(); ptr < students.end(); ptr++){
+    cout << (*ptr)->id << endl;
+  }
+  
+}
+void addToList(vector<Student*> &students, Student* &newStudent){
+  cout << "Enter the student's first name" << endl;
+  char inputFirstName[15];
+  char inputLastName[15];
+  
+  for(int i = 0; i < 15; i++){
+    inputFirstName[i] = '\0';
+    inputLastName[i] = '\0';
+  }
+  cin.get(inputFirstName, 15);
+  cin.get();
+  cout << "Enter the student's last name" << endl;
+  cin.get(inputLastName, 15);
+  cin.get();
+
+  strcpy(newStudent->firstName, inputFirstName);
+  strcpy(newStudent->lastName, inputLastName);
+
+  cout << "Enter the student's id number" << endl;
+  int id = 0;
+  cin >> id;
+
+  newStudent->id = id;
+
+  cout << "Enter the student's GPA" << endl;
+  float gpa;
+  cin >> gpa;
+
+  cin.get();
+  newStudent ->gpa = gpa;
+  
+  students.push_back(newStudent);
+  return;
 
 }
