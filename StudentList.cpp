@@ -1,95 +1,99 @@
+/*
+Author: Vikram Vasudevan
+Date: 10/11/2023
+Description: This program allows users to input students, and their corresponding ids and gpas. Those values can be printed out or removed
+from the list.
+
+*/
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
+//Student struct
 struct Student{
   char firstName[15];
   char lastName[15];
   int id;
   float gpa;
 };
+//initializing functions
 void addToList(vector<Student*> &students, Student* &newStudent);
-void remove(vector<Student*> &students, int id);
+void demolish(vector<Student*> &students, int id);
 void printOut(vector<Student*> students);
+//main
 int main(){
   bool stillRunning = true;
+  //vector of student pointers
+  vector<Student*> students;
   while (stillRunning == true){
-    cout << "hi";
-    vector<Student*> students;
-    char add [4];
-    add[0] = 'A';
-    add[1] = 'D';
-    add[2] = 'D';
-    add[3] = '\0';
-    char print [6];
-    print[0] = 'P';
-    print[1] = 'R';
-    print[2] = 'I';
-    print[3] = 'N';
-    print[4] = 'T';
-    print[5] = '\0';
-    char remove [7];
-    remove[0] = 'R';
-    remove[1] = 'E';
-    remove[2] = 'M';
-    remove[3] = 'O';
-    remove[4] = 'V';
-    remove[5] = 'E';
-    remove[6] = '\0';
-    char quit [5];
-    quit[0] = 'Q';
-    quit[1] = 'U';
-    quit[2] = 'I';
-    quit[3] = 'T';
-    quit[4] = '\0';
-
-    char input[7];
+    //prompt user to begin one of the functions
+    cout << "Enter 'ADD', 'PRINT', 'REMOVE', or 'QUIT'" << endl;
+    char input[15];
     for(int i = 0; i < 7; i++){
       input[i] = '\0';
     }
-  
-    //Student steph
     cin.get(input, 15);
     cin.ignore(15, '\n');
-
+    //create a new instance of the struct and assign a pointer to it.
     Student* newStudent = new Student();
-    if(strcmp(input, add) == 0){
-      cout << "Steph curry is on drugs";
+    //calling functions
+    if(strcmp(input, "ADD") == 0){
       addToList(students, newStudent);
     }
-    else if(strcmp(input, print) == 0){
+    else if(strcmp(input, "PRINT") == 0){
 
-      cout << "Levi Lao's GPA is unfortunately low";
       printOut(students);
     }
-    else if(strcmp(input, remove) == 0){
-      cout << "Remove";
+    else if(strcmp(input, "REMOVE") == 0){
+      cout << "Enter the id of the student you'd like to remove: " << endl;
+      int tempID = 0;
+      cin >> tempID;
+      cin.get();
+      demolish(students, tempID);
     }
-    else if(strcmp(input, quit) == 0){
+    //ends program
+    else if(strcmp(input, "QUIT") == 0){
       stillRunning = false;
+    }
+    else{
+      cout << "Please enter a valid input: " << endl;
     }
   }
  
 
 }
 
-void remove(vector <Student*> &students, int id){
-  //vector <int> ::iterator iter = students.begin();
+//this function removes a student from the list.
+void demolish(vector <Student*> &students, int id){
+  vector <Student*> ::iterator iter = students.begin();
+  //iterate through the vector to find the student with the corresponding id.
+  for(iter = students.begin(); iter < students.end(); iter++){
+    if((*iter) ->id == id){
+      //delete the student that the iterator is pointing to, and delete its space in the vector
+      delete *iter;
+      students.erase(iter);
+      return;
+    }
 
-  
-
-
-
+    
+  }
+ 
 }
+
+//this function prints out the list of students
 void printOut(vector<Student*> students){
-  cout << "PRINT has been called";
   vector<Student*>::iterator ptr;
   for(ptr = students.begin(); ptr < students.end(); ptr++){
-    cout << (*ptr)->id << endl;
+    cout<< "Name: " << (*ptr)->firstName << " " << (*ptr) -> lastName << endl;
+    cout << "ID: "<< (*ptr)->id << endl;
+    cout << "GPA: "<< fixed << setprecision(2) << (*ptr)->gpa << endl;
   }
   
 }
+
+//this function prompts users to enter information about a new student
 void addToList(vector<Student*> &students, Student* &newStudent){
   cout << "Enter the student's first name" << endl;
   char inputFirstName[15];
